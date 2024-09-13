@@ -3,6 +3,7 @@ $sub_title = "Penjualan Produk";
 $title = "Kasir";
 include 'partials/page-title.php'; ?>
 
+<button class="btn btn-primary mb-4" id="lihat-transaksi"><i class="mdi mdi-eye"></i> Lihat Transaksi</button>
 
 <!-- end row-->
 <?php
@@ -106,7 +107,23 @@ $kode = $char . sprintf("%03s", $no);
 
     </div>
 </div>
+<?php
+if (isset($_POST['hapus-penjualan'])) {
+    $id = $_POST['id'];
+    $sql = "DELETE FROM penjualan WHERE id = '$id'";
+    $query = mysqli_query($conn, $sql);
 
+    $sql = "DELETE FROM keranjang WHERE kode_penjualan = '$_POST[kode_penjualan]'";
+    $query = mysqli_query($conn, $sql);
+
+    $sql = "DELETE FROM transaksi WHERE kode_transaksi = '$_POST[kode_penjualan]'";
+    $query = mysqli_query($conn, $sql);
+
+    if ($query) {
+        echo "<script>window.location='index.php?halaman=penjualan'</script>";
+    }
+}
+?>
 
 
 <script>
@@ -117,6 +134,12 @@ $kode = $char . sprintf("%03s", $no);
     $(document).ready(function () {
         $('.select2').select2({
         })
+        $('#lihat-transaksi').on('click', function () {
+            $('.modal').modal('show');
+            $('.modal-title').html('History Transaksi');
+            // load form
+            $('.modal-body').load('halaman/penjualan/tabel-transaksi-penjualan.php');
+        });
         $('#pelanggan').on('change', function () {
             var alamat = $(this).find(':selected').data('alamat');
             $('textarea[name=alamat]').val(alamat);

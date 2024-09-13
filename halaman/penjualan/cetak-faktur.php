@@ -62,6 +62,7 @@ session_start();
                                             $harga_beli = 0;
                                             $harga_jual = 0;
                                             $no = 1;
+                                            $query = mysqli_query($conn, "SELECT * FROM view_keranjang WHERE kode_penjualan = '$_GET[id]'");
                                             while ($data = mysqli_fetch_array($query)) {
                                                 ?>
                                                 <tr>
