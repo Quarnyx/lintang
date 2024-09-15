@@ -14,10 +14,10 @@ include 'partials/page-title.php'; ?>
     <div class="col-xl-12">
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title mb-0">Filter Periode</h5>
+                <h5 class="card-title mb-0">Filter Tanggal</h5>
             </div><!-- end card header -->
             <?php
-            function bulan($inputbulan)
+            function tanggal($tanggal)
             {
                 $bulan = array(
                     1 => 'Januari',
@@ -33,13 +33,15 @@ include 'partials/page-title.php'; ?>
                     'November',
                     'Desember'
                 );
-                return $bulan[(int) $inputbulan[1]];
+                $split = explode('-', $tanggal);
+                return $split[2] . ' ' . $bulan[(int) $split[1]] . ' ' . $split[0];
             }
-            if (isset($_GET['bulan'])) {
-                $titlebulan = bulan($_GET['bulan']);
-            } else {
-                $titlebulan = bulan(date('m'));
+            $daritanggal = "";
+            $sampaitanggal = "";
 
+            if (isset($_GET['dari_tanggal']) && isset($_GET['sampai_tanggal'])) {
+                $daritanggal = $_GET['dari_tanggal'];
+                $sampaitanggal = $_GET['sampai_tanggal'];
             }
 
             ?>
@@ -47,31 +49,23 @@ include 'partials/page-title.php'; ?>
                 <form action="" method="get" class="row g-3">
                     <input type="hidden" name="halaman" value="jurnal">
                     <div class="col-md-6">
-                        <label for="validationDefault01" class="form-label">Bulan</label>
-                        <select class="form-select" name="bulan" id="validationDefault01">
-                            <option selected disabled value="">Pilih Bulan</option>
-                            <option value="01">Januari</option>
-                            <option value="02">Februari</option>
-                            <option value="03">Maret</option>
-                            <option value="04">April</option>
-                            <option value="05">Mei</option>
-                            <option value="06">Juni</option>
-                            <option value="07">Juli</option>
-                            <option value="08">Agustus</option>
-                            <option value="09">September</option>
-                            <option value="10">Oktober</option>
-                            <option value="11">November</option>
-                            <option value="12">Desember</option>
-                        </select>
+                        <label for="validationDefault01" class="form-label">Dari Tanggal</label>
+                        <input type="date" class="form-control" id="validationDefault01" required=""
+                            name="dari_tanggal">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="validationDefault02" class="form-label">Sampai Tanggal</label>
+                        <input type="date" class="form-control" id="validationDefault02" required=""
+                            name="sampai_tanggal">
                     </div>
                     <div class="col-12">
                         <button class="btn btn-primary" type="submit">Pilih</button>
-                        <?php if (isset($_GET['bulan'])) { ?>
-                            <a target="_blank" href="halaman/jurnal/cetak.php?bulan=<?= $_GET['bulan'] ?>"
+                        <?php if (isset($_GET['dari_tanggal']) && isset($_GET['sampai_tanggal'])) { ?>
+                            <a target="_blank"
+                                href="halaman/jurnal/cetak.php?dari_tanggal=<?= $daritanggal ?>&sampai_tanggal=<?= $sampaitanggal ?>"
                                 class="btn btn-success">Cetak</a>
                         <?php } ?>
                     </div>
-
                 </form>
             </div> <!-- end card-body -->
         </div> <!-- end card-->
@@ -93,14 +87,13 @@ include 'partials/page-title.php'; ?>
 <!-- end row-->
 
 <script>
-    <?php if (!isset($_GET['bulan'])) { ?>
+    <?php if (!isset($_GET['dari_tanggal']) && !isset($_GET['sampai_tanggal'])) { ?>
         function loadTable() {
             $('#load-table').load('halaman/jurnal/tabel-jurnal.php')
         }
-    <?php } else {
-        $bulan = $_GET['bulan']; ?>
+    <?php } else { ?>
         function loadTable() {
-            $('#load-table').load('halaman/jurnal/tabel-jurnal.php?bulan=' + '<?= $bulan ?>')
+            $('#load-table').load('halaman/jurnal/tabel-jurnal.php?dari_tanggal=' + '<?= $daritanggal ?>&sampai_tanggal=' + '<?= $sampaitanggal ?>')
         }
     <?php } ?>
     $(document).ready(function () {

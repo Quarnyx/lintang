@@ -12,8 +12,8 @@
     <tbody>
         <?php
         include "../../config.php";
-        if (isset($_GET['bulan'])) {
-            $query = mysqli_query($conn, "SELECT * FROM jurnal WHERE MONTH(tanggal_transaksi) = '$_GET[bulan]' ORDER BY id_transaksi DESC");
+        if (isset($_GET['dari_tanggal']) && isset($_GET['sampai_tanggal'])) {
+            $query = mysqli_query($conn, "SELECT * FROM jurnal WHERE tanggal_transaksi BETWEEN '$_GET[dari_tanggal]' AND '$_GET[sampai_tanggal]'  ORDER BY id_transaksi DESC");
 
         } else {
             $query = mysqli_query($conn, "SELECT * FROM jurnal ORDER BY id_transaksi DESC");
@@ -39,12 +39,9 @@
 </table>
 <?php
 require_once '../../config.php';
-if (isset($_GET['bulan'])) {
-    $sql = mysqli_query($conn, "SELECT sum(debit) AS debit FROM jurnal WHERE MONTH(tanggal_transaksi) = '$_GET[bulan]'");
+if (isset($_GET['dari_tanggal']) && isset($_GET['sampai_tanggal'])) {
+    $sql = mysqli_query($conn, "SELECT sum(debit) AS debit FROM jurnal WHERE tanggal_transaksi BETWEEN '$_GET[dari_tanggal]' AND '$_GET[sampai_tanggal]'");
     $debit = mysqli_fetch_array($sql);
-    $bulansebelumnya = $_GET['bulan'] - 1;
-    $sqlbulan = mysqli_query($conn, "SELECT sum(debit) AS debit FROM jurnal WHERE MONTH(tanggal_transaksi) = '$bulansebelumnya'");
-    $debitbulanan = mysqli_fetch_array($sqlbulan);
 } else {
     $sql = mysqli_query($conn, "SELECT sum(debit) AS debit FROM jurnal");
     $debit = mysqli_fetch_array($sql);
@@ -93,13 +90,9 @@ if (!empty($debit['debit'])) {
                             <div class="col-6">
                                 <?php
                                 require_once '../../config.php';
-                                if (isset($_GET['bulan'])) {
-                                    $sql = mysqli_query($conn, "SELECT sum(kredit) AS kredit FROM jurnal WHERE MONTH(tanggal_transaksi) = '$_GET[bulan]'");
+                                if (isset($_GET['dari_tanggal']) && isset($_GET['sampai_tanggal'])) {
+                                    $sql = mysqli_query($conn, "SELECT sum(kredit) AS kredit FROM jurnal WHERE tanggal_transaksi BETWEEN '$_GET[dari_tanggal]' AND '$_GET[sampai_tanggal]'");
                                     $kredit = mysqli_fetch_array($sql);
-                                    // bulan sebelumnya
-                                    $bulansebelumnya = $_GET['bulan'] - 1;
-                                    $sqlbulan = mysqli_query($conn, "SELECT sum(kredit) AS kredit FROM jurnal WHERE MONTH(tanggal_transaksi) = '$bulansebelumnya'");
-                                    $kreditbulanan = mysqli_fetch_array($sqlbulan);
                                 } else {
                                     $sql = mysqli_query($conn, "SELECT sum(kredit) AS kredit FROM jurnal");
                                     $kredit = mysqli_fetch_array($sql);

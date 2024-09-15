@@ -15,7 +15,7 @@ session_start();
 <body>
     <?php
     include '../../config.php';
-    function bulan($inputbulan)
+    function tanggal($tanggal)
     {
         $bulan = array(
             1 => 'Januari',
@@ -31,10 +31,16 @@ session_start();
             'November',
             'Desember'
         );
-        return $bulan[(int) $inputbulan[1]];
+        $split = explode('-', $tanggal);
+        return $split[2] . ' ' . $bulan[(int) $split[1]] . ' ' . $split[0];
     }
-    $query = mysqli_query($conn, "SELECT * FROM jurnal WHERE MONTH(tanggal_transaksi) = '$_GET[bulan]' ORDER BY id_transaksi DESC");
-    $inv = mysqli_fetch_array($query);
+    $daritanggal = "";
+    $sampaitanggal = "";
+
+    if (isset($_GET['dari_tanggal']) && isset($_GET['sampai_tanggal'])) {
+        $daritanggal = $_GET['dari_tanggal'];
+        $sampaitanggal = $_GET['sampai_tanggal'];
+    }
     ?>
     <div class="container-fluid">
         <div class="row">
@@ -46,12 +52,14 @@ session_start();
                         <div class="row">
                             <div class="col-md-8">
                                 <h3>TOKO LINTANG</h3>
-                                <h3><b>NERACA</b></h3>
+                                <h3><b>LAPORAN JURNAL</b></h3>
                                 <p><strong>Alamat : </strong> Jln. Medoho Rt 05 Rw 09 Kelurahan Gayamsari Kecamatan
                                     Sambirejo Kota Semarang.</p>
                                 <p><strong>Tanggal Cetak : </strong> <span class="">
                                         <?= date('d F Y'); ?></span></p>
-                                <p><strong>Periode Bulan : <?= bulan($_GET['bulan']) ?> </strong> <span class="">
+                                <p><strong>Periode Bulan : </strong> <span class="">
+                                        <?= tanggal($daritanggal) . " s.d " . tanggal($sampaitanggal); ?> </strong>
+                                        <span class="">
                             </div><!-- end col -->
                             <div class="col-md-4">
                                 <div class="float-end">
@@ -77,10 +85,12 @@ session_start();
                                         <tbody>
                                             <?php
                                             include "../../config.php";
-                                            $total = 0;
-                                            $harga_beli = 0;
-                                            $harga_jual = 0;
+                                            $debit = 0;
+                                            $kredit = 0;
                                             $no = 1;
+
+                                            $query = mysqli_query($conn, "SELECT * FROM jurnal WHERE tanggal_transaksi BETWEEN '$_GET[dari_tanggal]' AND '$_GET[sampai_tanggal]' ORDER BY id_transaksi DESC");
+
                                             while ($data = mysqli_fetch_array($query)) {
                                                 ?>
                                                 <tr>
@@ -92,8 +102,16 @@ session_start();
 
                                                 </tr>
                                                 <?php
+
+                                                $debit += $data['debit'];
+                                                $kredit += $data['kredit'];
                                             }
                                             ?>
+                                            <tr>
+                                                <td colspan="3">Total</td>
+                                                <td>Rp. <?= number_format($debit, 0, ',', '.') ?></td>
+                                                <td>Rp. <?= number_format($kredit, 0, ',', '.') ?></td>
+                                            </tr>
 
                                         </tbody>
                                     </table>
@@ -110,27 +128,8 @@ session_start();
 
     </div>
 
-    <?php
-    function tanggal($tanggal)
-    {
-        $bulan = array(
-            1 => 'Januari',
-            'Februari',
-            'Maret',
-            'April',
-            'Mei',
-            'Juni',
-            'Juli',
-            'Agustus',
-            'September',
-            'Oktober',
-            'November',
-            'Desember'
-        );
-        $split = explode('-', $tanggal);
-        return $split[2] . ' ' . $bulan[(int) $split[1]] . ' ' . $split[0];
-    }
-    ?>
+
+
 
 </body>
 <script>

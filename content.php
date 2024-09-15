@@ -58,6 +58,9 @@ switch ($_GET['halaman'] ?? '') {
     case 'buku-besar':
         include 'halaman/buku-besar/index.php';
         break;
+    case 'laporan-stok':
+        include 'halaman/laporan-stok/index.php';
+        break;
     default:
         include 'halaman/404.php';
 }
