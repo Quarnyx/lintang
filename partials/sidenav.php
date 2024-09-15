@@ -77,28 +77,28 @@
                 </li>
                 <li class="menu-item">
                     <a href="?halaman=produk" class="menu-link">
-                        <span class="menu-icon"><i class="mdi mdi-calendar"></i></span>
+                        <span class="menu-icon"><i class="mdi mdi-archive-outline"></i></span>
                         <span class="menu-text"> Produk </span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="?halaman=supplier" class="menu-link">
-                        <span class="menu-icon"><i class="mdi mdi-calendar"></i></span>
+                        <span class="menu-icon"><i class="mdi mdi-clipboard-flow-outline"></i></span>
                         <span class="menu-text"> Supplier </span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="?halaman=pelanggan" class="menu-link">
-                        <span class="menu-icon"><i class="mdi mdi-calendar"></i></span>
+                        <span class="menu-icon"><i class="mdi mdi-account-group"></i></span>
                         <span class="menu-text"> Pelanggan </span>
                     </a>
                 </li>
 
                 <li class="menu-item">
                     <a href="?halaman=akun" class="menu-link">
-                        <span class="menu-icon"><i class="mdi mdi-calendar"></i></span>
+                        <span class="menu-icon"><i class="mdi mdi-card-account-details-outline"></i></span>
                         <span class="menu-text"> Akun </span>
                     </a>
                 </li>
@@ -115,23 +115,29 @@
 
             <li class="menu-item">
                 <a href="?halaman=pembelian" class="menu-link">
-                    <span class="menu-icon"><i class="mdi mdi-calendar"></i></span>
+                    <span class="menu-icon"><i class="mdi mdi-cart"></i></span>
                     <span class="menu-text"> Pembelian </span>
                 </a>
             </li>
 
             <li class="menu-title">Laporan</li>
+            <li class="menu-item">
+                <a href="?halaman=laporan-stok" class="menu-link">
+                    <span class="menu-icon"><i class="mdi mdi-chart-box-outline"></i></span>
+                    <span class="menu-text"> Stok </span>
+                </a>
+            </li>
 
             <li class="menu-item">
                 <a href="?halaman=laporan-penjualan" class="menu-link">
-                    <span class="menu-icon"><i class="mdi mdi-cart"></i></span>
+                    <span class="menu-icon"><i class="mdi mdi-chart-box-outline"></i></span>
                     <span class="menu-text"> Penjualan </span>
                 </a>
             </li>
 
             <li class="menu-item">
                 <a href="?halaman=laporan-pembelian" class="menu-link">
-                    <span class="menu-icon"><i class="mdi mdi-calendar"></i></span>
+                    <span class="menu-icon"><i class="mdi mdi-chart-box-outline"></i></span>
                     <span class="menu-text"> Pembelian </span>
                 </a>
             </li>
@@ -139,28 +145,28 @@
 
             <li class="menu-item">
                 <a href="?halaman=jurnal" class="menu-link">
-                    <span class="menu-icon"><i class="mdi mdi-calendar"></i></span>
+                    <span class="menu-icon"><i class="mdi mdi-chart-box-outline"></i></span>
                     <span class="menu-text"> Jurnal </span>
                 </a>
             </li>
 
             <li class="menu-item">
                 <a href="?halaman=buku-besar" class="menu-link">
-                    <span class="menu-icon"><i class="mdi mdi-calendar"></i></span>
+                    <span class="menu-icon"><i class="mdi mdi-chart-box-outline"></i></span>
                     <span class="menu-text"> Buku Besar </span>
                 </a>
             </li>
 
             <li class="menu-item">
                 <a href="?halaman=laba-rugi" class="menu-link">
-                    <span class="menu-icon"><i class="mdi mdi-calendar"></i></span>
+                    <span class="menu-icon"><i class="mdi mdi-chart-box-outline"></i></span>
                     <span class="menu-text"> Laba Rugi </span>
                 </a>
             </li>
 
             <li class="menu-item">
                 <a href="?halaman=neraca" class="menu-link">
-                    <span class="menu-icon"><i class="mdi mdi-calendar"></i></span>
+                    <span class="menu-icon"><i class="mdi mdi-chart-box-outline"></i></span>
                     <span class="menu-text"> Neraca </span>
                 </a>
             </li>
