@@ -191,13 +191,15 @@ switch ($_GET['aksi'] ?? '') {
         break;
     // tambah produk
     case 'tambah-produk':
-        $stmt = $conn->prepare("INSERT INTO produk (nama_produk, satuan, harga_beli, harga_jual, kategori_produk) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $nama_produk, $satuan, $harga_beli, $harga_jual, $kategori_produk);
+        $stmt = $conn->prepare("INSERT INTO produk (nama_produk, satuan, harga_beli, harga_jual, kategori_produk, id_supplier, kode_produk) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssis", $nama_produk, $satuan, $harga_beli, $harga_jual, $kategori_produk, $id_supplier, $kode_produk);
         $nama_produk = $_POST['nama_produk'];
         $satuan = $_POST['satuan'];
         $harga_beli = $_POST['harga_beli'];
         $harga_jual = $_POST['harga_jual'];
         $kategori_produk = $_POST['kategori_produk'];
+        $id_supplier = $_POST['id_supplier'];
+        $kode_produk = $_POST['kode_produk'];
         if ($stmt->execute()) {
             http_response_code(200);
             echo json_encode(['status' => 'success', 'message' => 'Data produk berhasil ditambahkan']);
@@ -208,13 +210,14 @@ switch ($_GET['aksi'] ?? '') {
         $stmt->close();
         break;
     case 'edit-produk':
-        $stmt = $conn->prepare("UPDATE produk SET nama_produk = ?, satuan = ?, harga_beli = ?, harga_jual = ?, kategori_produk = ? WHERE id = ?");
-        $stmt->bind_param("sssssi", $nama_produk, $satuan, $harga_beli, $harga_jual, $kategori_produk, $_POST['id']);
+        $stmt = $conn->prepare("UPDATE produk SET nama_produk = ?, satuan = ?, harga_beli = ?, harga_jual = ?, kategori_produk = ?, id_supplier = ? WHERE id = ?");
+        $stmt->bind_param("sssssii", $nama_produk, $satuan, $harga_beli, $harga_jual, $kategori_produk, $id_supplier, $_POST['id']);
         $nama_produk = $_POST['nama_produk'];
         $satuan = $_POST['satuan'];
         $harga_beli = $_POST['harga_beli'];
         $harga_jual = $_POST['harga_jual'];
         $kategori_produk = $_POST['kategori_produk'];
+        $id_supplier = $_POST['id_supplier'];
         if ($stmt->execute()) {
             http_response_code(200);
             echo json_encode(['status' => 'success', 'message' => 'Data produk berhasil diubah']);

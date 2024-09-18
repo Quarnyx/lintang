@@ -29,6 +29,8 @@
                         class="btn btn-primary">Edit</button>
                     <button data-id="<?= $data['id'] ?>" data-name="<?= $data['nama_produk'] ?>" id="delete" type="button"
                         class="btn btn-danger">Delete</button>
+                    <button data-id="<?= $data['id'] ?>" data-name="<?= $data['nama_produk'] ?>" id="detail" type="button"
+                        class="btn btn-success">Detail</button>
                 </td>
             </tr>
             <?php
@@ -49,6 +51,21 @@
                 success: function (data) {
                     $('.modal').modal('show');
                     $('.modal-title').html('Edit Data ' + name);
+                    $('.modal .modal-body').html(data);
+                }
+            })
+        });
+
+        $('#tabel-data').on('click', '#detail', function () {
+            const id = $(this).data('id');
+            const name = $(this).data('name');
+            $.ajax({
+                type: 'POST',
+                url: 'halaman/produk/detail-produk.php',
+                data: 'id=' + id + '&name=' + name,
+                success: function (data) {
+                    $('.modal').modal('show');
+                    $('.modal-title').html('Detail Data ' + name);
                     $('.modal .modal-body').html(data);
                 }
             })

@@ -18,18 +18,18 @@ $row = $result->fetch_assoc();
             <div class="mb-3">
                 <label class="form-label">Nama barang</label>
                 <input type="text" class="form-control" name="nama_produk" placeholder="Produk"
-                    value="<?= $row['nama_produk'] ?>">
+                    value="<?= $row['nama_produk'] ?>" readonly>
             </div>
 
             <div class="mb-3">
                 <label for="" class="form-label">Harga Beli</label>
                 <input type="number" name="harga_beli" class="form-control" placeholder="Harga Beli"
-                    value="<?= $row['harga_beli'] ?>">
+                    value="<?= $row['harga_beli'] ?>" readonly>
             </div>
             <div class="mb-3">
                 <label class="form-label">Satuan Produk</label>
-                <input type="text" name="satuan" value="<?= $row['satuan'] ?>" class="form-control"
-                    placeholder="Satuan">
+                <input type="text" name="satuan" value="<?= $row['satuan'] ?>" class="form-control" placeholder="Satuan"
+                    readonly>
             </div>
         </div>
 
@@ -37,17 +37,17 @@ $row = $result->fetch_assoc();
             <div class="mb-3">
                 <label class="form-label">Kategori Produk</label>
                 <input type="text" name="kategori_produk" value="<?= $row['kategori_produk'] ?>" class="form-control"
-                    placeholder="Kategori">
+                    placeholder="Kategori" readonly>
             </div>
 
             <div class="mb-3">
                 <label for="" class="form-label">Harga Jual</label>
                 <input type="number" name="harga_jual" value="<?= $row['harga_jual'] ?>" class="form-control"
-                    placeholder="Harga Jual">
+                    placeholder="Harga Jual" readonly>
             </div>
             <div class="mb-3">
                 <label class="form-label">Supplier</label>
-                <select name="id_supplier" class="form-select">
+                <select name="id_supplier" class="form-select" readonly>
                     <option value="">Pilih Supplier</option>
                     <?php
                     include '../../config.php';
@@ -55,7 +55,8 @@ $row = $result->fetch_assoc();
                     while ($d = $data->fetch_array()) {
                         ?>
                         <option value="<?= $d['id'] ?>" <?php if ($d['id'] == $row['id_supplier']) { ?> selected<?php } ?>>
-                            <?= $d['nama_supplier'] ?></option>
+                            <?= $d['nama_supplier'] ?>
+                        </option>
                         <?php
                     }
                     ?>

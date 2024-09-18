@@ -41,15 +41,30 @@ include 'partials/page-title.php'; ?>
             <div class="card-body">
                 <form action="" method="get" class="row g-3">
                     <input type="hidden" name="halaman" value="laporan-stok">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label for="validationDefault01" class="form-label">Dari Tanggal</label>
                         <input type="date" class="form-control" id="validationDefault01" required=""
                             name="dari_tanggal">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label for="validationDefault02" class="form-label">Sampai Tanggal</label>
                         <input type="date" class="form-control" id="validationDefault02" required=""
                             name="sampai_tanggal">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="validationDefault02" class="form-label">Supplier</label>
+                        <select name="id_supplier" class="form-select">
+                            <option value="Semua">Semua Supplier</option>
+                            <?php
+                            include '../../config.php';
+                            $data = $conn->query("SELECT * FROM supplier");
+                            while ($d = $data->fetch_array()) {
+                                ?>
+                                <option value="<?= $d['id'] ?>"><?= $d['nama_supplier'] ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div class="col-12">
                         <button class="btn btn-primary" type="submit">Pilih</button>
@@ -81,7 +96,9 @@ include 'partials/page-title.php'; ?>
                         <thead>
                             <tr>
                                 <th class="text-center" style="vertical-align: middle;">No</th>
-                                <th class="text-center" style="vertical-align: middle;">Nama Barang</th>
+                                <th class="text-center" style="vertical-align: middle;">Nama Produk</th>
+                                <th class="text-center" style="vertical-align: middle;">Supplier</th>
+                                <th class="text-center" style="vertical-align: middle;">Stok Awal</th>
                                 <th class="text-center" style="vertical-align: middle;">Stok Masuk</th>
                                 <th class="text-center" style="vertical-align: middle;">Stok Keluar</th>
                                 <th class="text-center" style="vertical-align: middle;">Stok Akhir</th>
@@ -95,12 +112,47 @@ include 'partials/page-title.php'; ?>
                             $daritanggal = $_GET['dari_tanggal'];
                             $sampaitanggal = $_GET['sampai_tanggal'];
                             include "config.php";
-                            $query = mysqli_query($conn, "SELECT * FROM produk");
+                            if (isset($_GET['id_supplier']) && $_GET['id_supplier'] != "Semua") {
+                                $supp = "WHERE id_supplier = '$_GET[id_supplier]'";
+                            } else {
+                                $supp = "";
+                            }
+                            $query = mysqli_query($conn, "SELECT
+                                                    produk.*, 
+                                                    supplier.nama_supplier
+                                                FROM
+                                                    produk
+                                                    INNER JOIN
+                                                    supplier
+                                                    ON 
+                                                        produk.id_supplier = supplier.id $supp");
                             while ($data = mysqli_fetch_array($query)) {
                                 ?>
                                 <tr>
                                     <td><?= ++$no ?></td>
                                     <td><?= $data['nama_produk'] ?></td>
+                                    <td><?= $data['nama_supplier'] ?></td>
+                                    <td>
+                                        <?php
+                                        // stok awal
+                                        // hitung stok keluar
+                                        $sqlout = "SELECT SUM(qty) AS qty FROM keranjang WHERE id_produk = '$data[id]' AND tanggal_transaksi < '$daritanggal'";
+                                        $resultout = $conn->query($sqlout);
+                                        $dataout = mysqli_fetch_array($resultout);
+                                        if ($dataout['qty'] == null) {
+                                            $dataout['qty'] = 0;
+                                        }
+                                        // hitung stok masuk
+                                        $initsqlin = "SELECT SUM(qty) AS qty FROM pembelian WHERE id_produk = '$data[id]' AND tanggal_transaksi < '$daritanggal'";
+                                        $initresultin = $conn->query($initsqlin);
+                                        $initdatain = mysqli_fetch_array($initresultin);
+                                        if ($initdatain['qty'] == null) {
+                                            $initdatain['qty'] = 0;
+                                        }
+                                        $stokawal = $initdatain['qty'] - $dataout['qty'];
+                                        echo $stokawal;
+                                        ?>
+                                    </td>
                                     <td>
                                         <?php
                                         // stok masuk
@@ -129,7 +181,7 @@ include 'partials/page-title.php'; ?>
                                     </td>
                                     <td>
                                         <?php
-                                        echo $initdatain['qty'] - $dataout['qty'];
+                                        echo $stokawal + $initdatain['qty'] - $dataout['qty'];
                                         ?>
                                     </td>
                                 </tr>

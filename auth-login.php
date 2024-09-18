@@ -77,7 +77,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include 'partials/head-css.php'; ?>
 </head>
 
-<body class="authentication-bg authentication-bg-pattern">
+<body class="authentication-bg authentication-bg-pattern"
+    style="background-color: rgba(0, 0, 0, 0.5);background-image: url('assets/images/bg.jpg'); ">
 
     <div class="account-pages mt-5 mb-5">
         <div class="container">

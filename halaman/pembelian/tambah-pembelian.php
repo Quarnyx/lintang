@@ -36,7 +36,7 @@
                     $sql = "SELECT * FROM produk";
                     $result = $conn->query($sql);
                     while ($row = $result->fetch_assoc()) {
-                        echo '<option value="' . $row['id'] . '">' . $row['nama_produk'] . '</option>';
+                        echo '<option data-price="' . $row['harga_beli'] . '" data-supplier="' . $row['id_supplier'] . '" value="' . $row['id'] . '">' . $row['nama_produk'] . '</option>';
                     }
 
                     ?>
@@ -117,6 +117,14 @@
 </form>
 
 <script>
+    $(document).ready(function () {
+        $('select[name="id_produk"]').on('change', function () {
+            var price = $(this).find(':selected').data('price');
+            var supplier = $(this).find(':selected').data('supplier');
+            $('input[name="harga_beli"]').val(price);
+            $('select[name="id_supplier"] option[value="' + supplier + '"]').prop('selected', true);
+        });
+    })
     $("#tambah-pembelian").submit(function (e) {
         e.preventDefault();
         var formData = new FormData(this);
