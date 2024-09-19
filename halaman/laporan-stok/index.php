@@ -96,6 +96,7 @@ include 'partials/page-title.php'; ?>
                         <thead>
                             <tr>
                                 <th class="text-center" style="vertical-align: middle;">No</th>
+                                <th class="text-center" style="vertical-align: middle;">Kode Produk</th>
                                 <th class="text-center" style="vertical-align: middle;">Nama Produk</th>
                                 <th class="text-center" style="vertical-align: middle;">Supplier</th>
                                 <th class="text-center" style="vertical-align: middle;">Stok Awal</th>
@@ -130,6 +131,7 @@ include 'partials/page-title.php'; ?>
                                 ?>
                                 <tr>
                                     <td><?= ++$no ?></td>
+                                    <td><?= $data['kode_produk'] ?></td>
                                     <td><?= $data['nama_produk'] ?></td>
                                     <td><?= $data['nama_supplier'] ?></td>
                                     <td>
