@@ -11,7 +11,7 @@
  Target Server Version : 80030 (8.0.30)
  File Encoding         : 65001
 
- Date: 12/09/2024 19:00:12
+ Date: 20/09/2024 01:54:14
 */
 
 SET NAMES utf8mb4;
@@ -64,7 +64,7 @@ CREATE TABLE `keranjang`  (
   INDEX `id_pelanggan`(`id_pelanggan` ASC) USING BTREE,
   CONSTRAINT `keranjang_ibfk_1` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `keranjang_ibfk_2` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of keranjang
@@ -108,12 +108,11 @@ CREATE TABLE `pembelian`  (
   CONSTRAINT `pembelian_ibfk_1` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `pembelian_ibfk_2` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `pembelian_ibfk_3` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of pembelian
 -- ----------------------------
-INSERT INTO `pembelian` VALUES (5, 'PBL-001', 100, 2400.00, 240000.00, '2024-09-01', 1, 1, 4);
 
 -- ----------------------------
 -- Table structure for pengguna
@@ -147,7 +146,7 @@ CREATE TABLE `penjualan`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `id_pengguna`(`id_pengguna` ASC) USING BTREE,
   CONSTRAINT `penjualan_ibfk_1` FOREIGN KEY (`id_pengguna`) REFERENCES `pengguna` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of penjualan
@@ -164,14 +163,16 @@ CREATE TABLE `produk`  (
   `harga_jual` decimal(10, 2) NOT NULL,
   `satuan` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `kategori_produk` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+  `id_supplier` int NOT NULL,
+  `kode_produk` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id`, `kode_produk`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of produk
 -- ----------------------------
-INSERT INTO `produk` VALUES (1, 'ADIDAS SUPERSTAR EG4958', 2400.00, 2700.00, 'pcs', 'asdadsada');
-INSERT INTO `produk` VALUES (4, 'Indomie', 2500.00, 3000.00, 'pcs', 'Makanan');
+INSERT INTO `produk` VALUES (7, 'Ultraflu', 2400.00, 5000.00, 'pcs', 'Makanan', 4, 'PRD-001');
+INSERT INTO `produk` VALUES (8, 'Indomie', 2500.00, 5000.00, 'pcs', 'Makanan', 1, 'PRD-002');
 
 -- ----------------------------
 -- Table structure for supplier
@@ -208,13 +209,14 @@ CREATE TABLE `transaksi`  (
   INDEX `akun_kredit`(`akun_kredit` ASC) USING BTREE,
   CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`akun_debit`) REFERENCES `akun` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `transaksi_ibfk_2` FOREIGN KEY (`akun_kredit`) REFERENCES `akun` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of transaksi
 -- ----------------------------
 INSERT INTO `transaksi` VALUES (20, '2024-08-01', 'Pendapatan', 1, 6, 'Modal', 'JRNL20240912115833', 50000000.00);
 INSERT INTO `transaksi` VALUES (21, '2024-09-01', 'Pengeluaran', 8, 1, 'Pembelian dengan kodePBL-001', 'PBL-001', 240000.00);
+INSERT INTO `transaksi` VALUES (31, '2024-08-01', 'Pengeluaran', 8, 1, 'Pembelian dengan kodePBL-002', 'PBL-002', 12500.00);
 
 -- ----------------------------
 -- View structure for jurnal
