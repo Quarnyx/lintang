@@ -65,7 +65,8 @@ $kode = $char . sprintf("%03s", $no);
                                         ?>
 
                                         <option value="<?= $row['id'] ?>" data-hargabeli="<?= $row['harga_beli'] ?>"
-                                            data-hargajual="<?= $row['harga_jual'] ?>"><?= $row['nama_produk'] ?> - Stok
+                                            data-hargajual="<?= $row['harga_jual'] ?>" data-stock="<?= $row['stok'] ?>">
+                                            <?= $row['nama_produk'] ?> - Stok
                                             <?= $row['stok'] ?>
                                         </option>
                                         <?php
@@ -87,13 +88,16 @@ $kode = $char . sprintf("%03s", $no);
                         <div class="col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label">Qty</label>
-                                <input type="number" name="qty" class="form-control" placeholder="Qty">
+                                <input id="currentstock" type="hidden" name="currentstock" class="form-control"
+                                    placeholder="Qty">
+                                <input type="number" id="qty" name="qty" class="form-control" placeholder="Qty">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-success rounded-pill waves-effect waves-light mb-3"><i
+                            <button id="tambah-barang" type="submit"
+                                class="btn btn-success rounded-pill waves-effect waves-light mb-3"><i
                                     class="mdi mdi-plus"></i> Tambah Barang</button>
 
                         </div>
@@ -148,8 +152,23 @@ if (isset($_POST['hapus-penjualan'])) {
         $('#barang').on('change', function () {
             var hargabeli = $(this).find(':selected').data('hargabeli');
             var hargajual = $(this).find(':selected').data('hargajual');
+            var stock = $(this).find(':selected').data('stock');
+            $('input[name=currentstock]').val(stock);
             $('input[name=harga_beli]').val(hargabeli);
             $('input[name=harga_jual]').val(hargajual);
+        });
+
+        // jika qty lebih besar dari currentstock
+        $('#qty').on('input', function () {
+            var currentstock = $('#currentstock').val();
+            var qty = $('#qty').val();
+            if (qty > currentstock) {
+                alertify.error('Qty tidak boleh lebih besar dari stock');
+                $('#qty').val(currentstock);
+                $('#tambah-barang').prop('disabled', true);
+            } else {
+                $('#tambah-barang').prop('disabled', false);
+            }
         });
 
         $("#keranjang").submit(function (e) {

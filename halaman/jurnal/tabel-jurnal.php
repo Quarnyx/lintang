@@ -6,7 +6,6 @@
             <th>Akun</th>
             <th>Debit</th>
             <th>Kredit</th>
-            <th>Aksi</th>
         </tr>
     </thead>
     <tbody>
@@ -27,10 +26,7 @@
                 <td><?= $data['nama_akun'] ?></td>
                 <td>Rp. <?= number_format($data['debit'], 0, ',', '.') ?></td>
                 <td>Rp. <?= number_format($data['kredit'], 0, ',', '.') ?></td>
-                <td>
-                    <button data-id="<?= $data['id_transaksi'] ?>" id="delete" type="button"
-                        class="btn btn-danger">Delete</button>
-                </td>
+
             </tr>
             <?php
         }
@@ -130,29 +126,6 @@ if (!empty($debit['debit'])) {
             }
         );
 
-        $('#tabel-data').on('click', '#delete', function () {
-            const id = $(this).data('id');
-            alertify.confirm('Hapus', 'Apakah anda yakin ingin menghapus transaksi ini? ', function () {
-                $.ajax({
-                    type: 'POST',
-                    url: 'aksi.php?aksi=hapus-transaksi',
-                    data: 'id=' + id,
-                    success: function (data) {
-                        var response = JSON.parse(data);
-                        if (response.status == 'success') {
-                            alertify.success(response.message);
-                            loadTable();
-                        } if (response.status == 'error') {
-                            alertify.error(response.message);
-                        }
-                    },
-                    error: function (data) {
-                        alertify.error('Gagal');
-                    }
-                })
-            }, function () {
-                alertify.error('Hapus dibatalkan');
-            })
-        });
+
     });
 </script>

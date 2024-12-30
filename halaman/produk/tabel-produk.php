@@ -6,6 +6,7 @@
             <th>Satuan Barang</th>
             <th>Harga Beli</th>
             <th>Harga Jual</th>
+            <th>Stok</th>
             <th>Aksi</th>
         </tr>
     </thead>
@@ -23,7 +24,9 @@
                 <td><?= $data['satuan'] ?></td>
                 <td><?= "Rp. " . number_format($data['harga_beli'], 0, ',', '.') ?></td>
                 <td><?= "Rp. " . number_format($data['harga_jual'], 0, ',', '.') ?></td>
-
+                <td><?php $sqlstok = mysqli_query($conn, "SELECT * FROM stok WHERE id = '$data[id]'");
+                echo $datastok = mysqli_fetch_array($sqlstok)['stok']; ?>
+                </td>
                 <td>
                     <button data-id="<?= $data['id'] ?>" data-name="<?= $data['nama_produk'] ?>" id="edit" type="button"
                         class="btn btn-primary">Edit</button>

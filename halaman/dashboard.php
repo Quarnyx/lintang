@@ -153,6 +153,39 @@
     <!-- end row-->
 
     <div class="row">
+        <div class="col-12">
+            <!-- alert stok penjualan -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <?php
+                            $sqlstok = "SELECT * FROM stok WHERE stok <= 10";
+                            $resultstok = $conn->query($sqlstok);
+
+                            if ($resultstok->num_rows > 0) {
+                                while ($row = $resultstok->fetch_assoc()) {
+
+                                    ?>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <i class="fe-alert-triangle font-16"></i> <strong>Perhatian!</strong> Stok barang
+                                        <?= $row['nama_produk'] ?> kurang dari 10, silahkan lakukan pembelian terlebih dahulu.
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                        </button>
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end alert stok penjualan -->
+        </div>
+    </div>
+
+    <div class="row">
 
 
         <div class="col-lg-12">

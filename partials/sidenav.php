@@ -75,12 +75,14 @@
                         <span class="menu-text"> Pengguna </span>
                     </a>
                 </li>
-                <li class="menu-item">
-                    <a href="?halaman=produk" class="menu-link">
-                        <span class="menu-icon"><i class="mdi mdi-archive-outline"></i></span>
-                        <span class="menu-text"> Produk </span>
-                    </a>
-                </li>
+                <?php if ($_SESSION['level'] == 'Admin' || $_SESSION['level'] == 'Karyawan') { ?>
+                    <li class="menu-item">
+                        <a href="?halaman=produk" class="menu-link">
+                            <span class="menu-icon"><i class="mdi mdi-archive-outline"></i></span>
+                            <span class="menu-text"> Produk </span>
+                        </a>
+                    </li>
+                <?php } ?>
 
                 <li class="menu-item">
                     <a href="?halaman=supplier" class="menu-link">
@@ -103,6 +105,14 @@
                     </a>
                 </li>
             <?php } ?>
+            <?php if ($_SESSION['level'] == 'Karyawan') { ?>
+                <li class="menu-item">
+                    <a href="?halaman=produk" class="menu-link">
+                        <span class="menu-icon"><i class="mdi mdi-archive-outline"></i></span>
+                        <span class="menu-text"> Produk </span>
+                    </a>
+                </li>
+            <?php } ?>
 
             <li class="menu-title">Transaksi</li>
 
@@ -119,7 +129,7 @@
                     <span class="menu-text"> Pembelian </span>
                 </a>
             </li>
-            <?php if ($_SESSION['level'] == 'Admin') { ?>
+            <?php if ($_SESSION['level'] == 'Admin' || $_SESSION['level'] == 'Karyawan') { ?>
                 <li class="menu-title">Laporan</li>
                 <li class="menu-item">
                     <a href="?halaman=laporan-stok" class="menu-link">

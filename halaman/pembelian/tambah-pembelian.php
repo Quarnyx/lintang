@@ -73,42 +73,9 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Masuk ke</label>
-                <select class="form-select" name="akun_debit">
-                    <?php
-                    require_once '../../config.php';
+    <input name="akun_debit" type="hidden" value="8">
+    <input name="akun_kredit" type="hidden" value="1">
 
-                    $sql = "SELECT * FROM akun WHERE kategori_akun = 'Aktiva Lancar' OR kategori_akun = 'Aktiva Tetap'";
-                    $result = $conn->query($sql);
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<option value="' . $row['id'] . '">' . $row['nama_akun'] . '</option>';
-                    }
-
-                    ?>
-                </select>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="mb-3">
-                <label class="form-label">Dibayar dengan</label>
-                <select class="form-select" name="akun_kredit">
-                    <?php
-                    require_once '../../config.php';
-
-                    $sql = "SELECT * FROM akun WHERE kategori_akun = 'Aktiva Lancar' OR kategori_akun = 'Aktiva Tetap'";
-                    $result = $conn->query($sql);
-                    while ($row = $result->fetch_assoc()) {
-                        echo '<option value="' . $row['id'] . '">' . $row['nama_akun'] . '</option>';
-                    }
-
-                    ?>
-                </select>
-            </div>
-        </div>
-    </div>
     <div class="row">
         <div class="col-md-4">
             <button type="submit" class="btn btn-primary">Simpan</button>

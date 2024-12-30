@@ -313,7 +313,12 @@ switch ($_GET['aksi'] ?? '') {
         $harga_beli = $_POST['harga_beli'];
         $qty = $_POST['qty'];
         $total = $harga_beli * $qty;
-        $deskripsi = 'Pembelian dengan kode' . $kode_pembelian;
+        // cari nama produk berdasarkan id produk
+        $sqlproduk = "SELECT nama_produk FROM produk WHERE id = '$id_produk'";
+        $resultproduk = $conn->query($sqlproduk);
+        $row = $resultproduk->fetch_assoc();
+        $nama_produk = $row['nama_produk'];
+        $deskripsi = 'Pembelian dengan kode ' . $kode_pembelian . ' dengan produk ' . $nama_produk;
         $tanggal_transaksi = $_POST['tanggal_transaksi'];
         try {
             tambahTransaksi($akun_debit, $akun_kredit, $total, $deskripsi, $kode_pembelian, 'Pengeluaran', $tanggal_transaksi, $conn);
